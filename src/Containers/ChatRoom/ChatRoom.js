@@ -8,38 +8,50 @@ const { TextArea } = Input;
 
 const ChatRoom = () => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Message message="Hello Are you fking kidding me?" />
-            <Message message="Hello" />
-            <Message toMe={false} message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello Are you fking kidding me?" />
-            <Message message="Hello" />
-            <Message toMe={false} message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello Are you fking kidding me?" />
-            <Message message="Hello" />
-            <Message toMe={false} message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello Are you fking kidding me?" />
-            <Message message="Hello" />
-            <Message toMe={false} message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
-            <Message message="Hello" />
+        <div>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '80vh',
+                    overflowY: 'scroll'
+                }}
+            >
+                <Message message="Hello Are you fking kidding me?" />
+                <Message message="Hello" />
+                <Message toMe={false} message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello Are you fking kidding me?" />
+                <Message message="Hello" />
+                <Message toMe={false} message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello Are you fking kidding me?" />
+                <Message message="Hello" />
+                <Message toMe={false} message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello Are you fking kidding me?" />
+                <Message message="Hello" />
+                <Message toMe={false} message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+                <Message message="Hello" />
+            </div>
+            <TextArea
+                style={{ marginTop: 12, height: '8vh', resize: 'none' }}
+            />
         </div>
     );
 };
