@@ -1,10 +1,11 @@
 import React from 'react';
 import { Layout, Typography } from 'antd';
-import SideMenu from './Container/SideMenu';
-import ChatList from './Container/ChatList';
+import SideMenu from './Containers/SideMenu';
+import ChatList from './Containers/ChatList';
+import ChatRoom from './Containers/ChatRoom';
 import './App.css';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
 const chats = [
     {
@@ -46,7 +47,7 @@ function App() {
                         minHeight: 280
                     }}
                 >
-                    Content
+                    <ChatRoom />
                 </Content>
             </Layout>
         </Layout>
