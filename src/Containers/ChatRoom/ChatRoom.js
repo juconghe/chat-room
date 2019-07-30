@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Messages from '../../Components/Messages';
 import { Input } from 'antd';
+import { addMessage } from '../../Actions/AddMessage';
 
 import './Message.css';
 
@@ -10,6 +11,15 @@ const { TextArea } = Input;
 
 const ChatRoom = props => {
     const { messages } = props;
+    const [message, updateMessage] = useState('');
+
+    const handlePressEnter = e => {
+        if (e.keyCode === 13 && message !== '') {
+            props.addMessage(message);
+            updateMessage('');
+        }
+    };
+
     return (
         <div>
             <div
@@ -23,6 +33,9 @@ const ChatRoom = props => {
                 <Messages messages={messages} />
             </div>
             <TextArea
+                value={message}
+                onChange={e => updateMessage(e.target.value)}
+                onKeyUp={handlePressEnter}
                 style={{ marginTop: 12, height: '8vh', resize: 'none' }}
             />
         </div>
@@ -34,7 +47,11 @@ const mapStateToProps = state => ({
 });
 
 ChatRoom.propTypes = {
-    messages: PropTypes.array.isRequired
+    messages: PropTypes.array.isRequired,
+    addMessage: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps)(ChatRoom);
+export default connect(
+    mapStateToProps,
+    { addMessage }
+)(ChatRoom);
