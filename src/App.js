@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Typography } from 'antd';
+import socketIOClient from 'socket.io-client';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
@@ -35,6 +36,13 @@ if (process.env.NODE_ENV === 'development') middlewares.push(logger);
 const store = createStore(reducers, applyMiddleware(...middlewares));
 
 function App() {
+    useEffect(() => {
+        socketIOClient('http://localhost:8080', {
+            rejectUnauthorized: false,
+            path: '/chat/'
+        });
+    }, []);
+
     return (
         <Provider store={store}>
             <Layout>
