@@ -1,10 +1,11 @@
 import { ADD_MESSAGE } from './Actions';
+let count = 0;
 
 export const addMessage = message => ({
     type: ADD_MESSAGE,
     payload: {
         id: Math.random(),
         message,
-        fromUser: Math.random() > 0.5 ? 'juconghe' : 'mohan'
+        fromUser: count++ % 2 === 0 ? 'juconghe' : 'mohan'
     }
 });
