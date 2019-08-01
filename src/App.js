@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Typography } from 'antd';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -15,19 +15,13 @@ const { Title } = Typography;
 const chats = [
     {
         key: 1,
-        title: 'Jucong'
+        userName: 'Jucong',
+        toUser: 'Mo'
     },
     {
         key: 2,
-        title: 'Jucong'
-    },
-    {
-        key: 3,
-        title: 'Jucong'
-    },
-    {
-        key: 4,
-        title: 'Jucong'
+        userName: 'Mo',
+        toUser: 'Jucong'
     }
 ];
 
@@ -35,7 +29,8 @@ const middlewares = [thunk];
 if (process.env.NODE_ENV === 'development') middlewares.push(logger);
 const store = createStore(reducers, applyMiddleware(...middlewares));
 
-function App() {
+const App = () => {
+    const [chat, setChat] = useState({});
     return (
         <Provider store={store}>
             <Layout>
@@ -43,7 +38,12 @@ function App() {
                     <SideMenu />
                 </Sider>
                 <Sider width={300} theme="light">
-                    <ChatList chats={chats} />
+                    <ChatList
+                        chats={chats}
+                        handleOnClick={({ userName, toUser }) =>
+                            setChat({ userName, toUser })
+                        }
+                    />
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
@@ -57,12 +57,12 @@ function App() {
                             minHeight: 280
                         }}
                     >
-                        <ChatRoom />
+                        <ChatRoom chat={chat} />
                     </Content>
                 </Layout>
             </Layout>
         </Provider>
     );
-}
+};
 
 export default App;

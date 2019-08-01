@@ -1,32 +1,39 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Messages from '../../Components/Messages';
 import { Input } from 'antd';
 import { sendMessage, addMessage } from '../../Actions/AddMessage';
 import { subscribeTopic } from '../../Socket/Subscribe';
+import { unSubscribeTopic } from '../../Socket/UnSubscribeTopic';
 
 import './Message.css';
 
 const { TextArea } = Input;
 
 const ChatRoom = props => {
-    const { messages } = props;
+    const {
+        messages,
+        chat: { userName, toUser }
+    } = props;
     const [message, updateMessage] = useState('');
-    const wrappedAddMessage = useCallback(props.addMessage);
 
     useEffect(() => {
-        subscribeTopic('sendtomohan', message => {
-            wrappedAddMessage(message);
+        console.log(`subscribe sendto${userName}`);
+        subscribeTopic(`sendto${userName}`, payload => {
+            props.addMessage(payload);
         });
-    }, [wrappedAddMessage]);
+        return () => unSubscribeTopic(`sendto${userName}`);
+    });
 
     const handlePressEnter = e => {
         if (e.keyCode === 13 && message !== '') {
-            props.sendMessage(message);
+            props.sendMessage({ message, toUser, fromUser: userName });
             updateMessage('');
         }
     };
+
+    if (userName === undefined) return null;
 
     return (
         <div>
@@ -57,7 +64,11 @@ const mapStateToProps = state => ({
 ChatRoom.propTypes = {
     messages: PropTypes.array.isRequired,
     sendMessage: PropTypes.func.isRequired,
-    addMessage: PropTypes.func.isRequired
+    addMessage: PropTypes.func.isRequired,
+    chat: PropTypes.shape({
+        userName: PropTypes.any,
+        toUser: PropTypes.any
+    }).isRequired
 };
 
 export default connect(
