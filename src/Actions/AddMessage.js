@@ -1,11 +1,23 @@
 import { ADD_MESSAGE } from './Actions';
-let count = 0;
+import { emitMessage } from '../Socket/Emit';
 
-export const addMessage = message => ({
+export const sendMessage = message => dispatch => {
+    emitMessage('chatMessage', { message, toUser: 'mohan' });
+    dispatch({
+        type: ADD_MESSAGE,
+        payload: {
+            id: Math.random(),
+            message,
+            fromUser: 'juconghe'
+        }
+    });
+};
+
+export const addMessage = ({ message, fromUser }) => ({
     type: ADD_MESSAGE,
     payload: {
         id: Math.random(),
         message,
-        fromUser: count++ % 2 === 0 ? 'juconghe' : 'mohan'
+        fromUser
     }
 });

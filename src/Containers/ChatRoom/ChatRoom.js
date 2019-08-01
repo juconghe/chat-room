@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Messages from '../../Components/Messages';
 import { Input } from 'antd';
-import { addMessage } from '../../Actions/AddMessage';
+import { sendMessage, addMessage } from '../../Actions/AddMessage';
+import { subscribeTopic } from '../../Socket/Subscribe';
 
 import './Message.css';
 
@@ -12,10 +13,17 @@ const { TextArea } = Input;
 const ChatRoom = props => {
     const { messages } = props;
     const [message, updateMessage] = useState('');
+    const wrappedAddMessage = useCallback(props.addMessage);
+
+    useEffect(() => {
+        subscribeTopic('sendtomohan', message => {
+            wrappedAddMessage(message);
+        });
+    }, [wrappedAddMessage]);
 
     const handlePressEnter = e => {
         if (e.keyCode === 13 && message !== '') {
-            props.addMessage(message);
+            props.sendMessage(message);
             updateMessage('');
         }
     };
@@ -48,10 +56,11 @@ const mapStateToProps = state => ({
 
 ChatRoom.propTypes = {
     messages: PropTypes.array.isRequired,
+    sendMessage: PropTypes.func.isRequired,
     addMessage: PropTypes.func.isRequired
 };
 
 export default connect(
     mapStateToProps,
-    { addMessage }
+    { sendMessage, addMessage }
 )(ChatRoom);
