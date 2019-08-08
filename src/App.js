@@ -8,6 +8,7 @@ import reducers from './Reducers';
 import SideMenu from './Containers/SideMenu';
 import ChatList from './Containers/ChatList';
 import ChatRoom from './Containers/ChatRoom';
+import UserModal from './Components/UserModal';
 import './App.css';
 
 const { Header, Sider, Content } = Layout;
@@ -15,12 +16,10 @@ const { Title } = Typography;
 const chats = [
     {
         key: 1,
-        userName: 'Mo',
         toUser: 'Jucong'
     },
     {
         key: 2,
-        userName: 'Jucong',
         toUser: 'Mo'
     }
 ];
@@ -31,6 +30,7 @@ const store = createStore(reducers, applyMiddleware(...middlewares));
 
 const App = () => {
     const [chat, setChat] = useState({});
+    const [userName, setUserName] = useState('');
     return (
         <Provider store={store}>
             <Layout>
@@ -47,7 +47,11 @@ const App = () => {
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
-                        <Title>Chat Room</Title>
+                        <Title>
+                            {chat.toUser
+                                ? `Talking to ${chat.toUser}`
+                                : 'Select one to chat'}
+                        </Title>
                     </Header>
                     <Content
                         style={{
@@ -57,10 +61,11 @@ const App = () => {
                             minHeight: 280
                         }}
                     >
-                        <ChatRoom chat={chat} />
+                        <ChatRoom userName={userName} toUser={chat.toUser} />
                     </Content>
                 </Layout>
             </Layout>
+            <UserModal visible={userName === ''} handleSelect={setUserName} />
         </Provider>
     );
 };

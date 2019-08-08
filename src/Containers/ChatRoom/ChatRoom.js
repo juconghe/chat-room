@@ -6,22 +6,14 @@ import { Input } from 'antd';
 import { sendMessage, addMessage } from '../../Actions/AddMessage';
 import { subscribeTopic } from '../../Socket/Subscribe';
 import { unSubscribeTopic } from '../../Socket/UnSubscribeTopic';
-import { emitMessage } from '../../Socket/Emit';
 
 import './Message.css';
 
 const { TextArea } = Input;
 
 const ChatRoom = props => {
-    const {
-        messages,
-        chat: { userName, toUser }
-    } = props;
+    const { messages, userName, toUser } = props;
     const [message, updateMessage] = useState('');
-
-    useEffect(() => {
-        if (userName !== undefined) emitMessage('subscribe', { userName });
-    }, [userName]);
 
     useEffect(() => {
         subscribeTopic('message', payload => {
@@ -37,7 +29,7 @@ const ChatRoom = props => {
         }
     };
 
-    if (userName === undefined) return null;
+    if (toUser === undefined) return null;
 
     return (
         <div>
@@ -69,10 +61,8 @@ ChatRoom.propTypes = {
     messages: PropTypes.array.isRequired,
     sendMessage: PropTypes.func.isRequired,
     addMessage: PropTypes.func.isRequired,
-    chat: PropTypes.shape({
-        userName: PropTypes.any,
-        toUser: PropTypes.any
-    }).isRequired
+    userName: PropTypes.string.isRequired,
+    toUser: PropTypes.string.isRequired
 };
 
 export default connect(
