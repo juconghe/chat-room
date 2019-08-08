@@ -6,6 +6,7 @@ import { Input } from 'antd';
 import { sendMessage, addMessage } from '../../Actions/AddMessage';
 import { subscribeTopic } from '../../Socket/Subscribe';
 import { unSubscribeTopic } from '../../Socket/UnSubscribeTopic';
+import { emitMessage } from '../../Socket/Emit';
 
 import './Message.css';
 
@@ -19,11 +20,14 @@ const ChatRoom = props => {
     const [message, updateMessage] = useState('');
 
     useEffect(() => {
-        console.log(`subscribe sendto${userName}`);
-        subscribeTopic(`sendto${userName}`, payload => {
+        if (userName !== undefined) emitMessage('subscribe', { userName });
+    }, [userName]);
+
+    useEffect(() => {
+        subscribeTopic('message', payload => {
             props.addMessage(payload);
         });
-        return () => unSubscribeTopic(`sendto${userName}`);
+        return () => unSubscribeTopic('message');
     });
 
     const handlePressEnter = e => {
@@ -45,7 +49,7 @@ const ChatRoom = props => {
                     overflowY: 'scroll'
                 }}
             >
-                <Messages messages={messages} />
+                <Messages messages={messages} userName={userName} />
             </div>
             <TextArea
                 value={message}

@@ -15,13 +15,13 @@ const { Title } = Typography;
 const chats = [
     {
         key: 1,
-        userName: 'Jucong',
-        toUser: 'Mo'
+        userName: 'Mo',
+        toUser: 'Jucong'
     },
     {
         key: 2,
-        userName: 'Mo',
-        toUser: 'Jucong'
+        userName: 'Jucong',
+        toUser: 'Mo'
     }
 ];
 
