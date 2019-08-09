@@ -49,7 +49,7 @@ const App = () => {
                     <Header style={{ background: '#fff', padding: 0 }}>
                         <Title>
                             {chat.toUser
-                                ? `Talking to ${chat.toUser}`
+                                ? `${userName} is talking to ${chat.toUser}`
                                 : 'Select one to chat'}
                         </Title>
                     </Header>

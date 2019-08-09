@@ -1,4 +1,4 @@
-import { ADD_MESSAGE } from './Actions';
+import { ADD_MESSAGE, REST_MESSAGE } from './Actions';
 import { emitMessage } from '../Socket/Emit';
 
 export const sendMessage = ({ message, toUser, fromUser }) => dispatch => {
@@ -20,4 +20,8 @@ export const addMessage = ({ message, fromUser }) => ({
         message,
         fromUser
     }
+});
+
+export const resetMessage = () => ({
+    type: REST_MESSAGE
 });

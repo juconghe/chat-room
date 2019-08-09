@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Messages from '../../Components/Messages';
 import { Input } from 'antd';
-import { sendMessage, addMessage } from '../../Actions/AddMessage';
+import {
+    sendMessage,
+    addMessage,
+    resetMessage
+} from '../../Actions/AddMessage';
 import { subscribeTopic } from '../../Socket/Subscribe';
 import { unSubscribeTopic } from '../../Socket/UnSubscribeTopic';
 
@@ -14,6 +18,7 @@ const { TextArea } = Input;
 const ChatRoom = props => {
     const { messages, userName, toUser } = props;
     const [message, updateMessage] = useState('');
+    const callReset = useCallback(props.resetMessage);
 
     useEffect(() => {
         subscribeTopic('message', payload => {
@@ -21,6 +26,10 @@ const ChatRoom = props => {
         });
         return () => unSubscribeTopic('message');
     });
+
+    useEffect(() => {
+        callReset();
+    }, [callReset, toUser]);
 
     const handlePressEnter = e => {
         if (e.keyCode === 13 && message !== '') {
@@ -67,5 +76,5 @@ ChatRoom.propTypes = {
 
 export default connect(
     mapStateToProps,
-    { sendMessage, addMessage }
+    { sendMessage, addMessage, resetMessage }
 )(ChatRoom);
