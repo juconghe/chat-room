@@ -1,6 +1,6 @@
 import socketIOClient from 'socket.io-client';
 
-const socket = socketIOClient('http://localhost:8080', {
+const socket = socketIOClient('http://chat-server.azurewebsites.net', {
     rejectUnauthorized: false,
     path: '/chat/'
 });
